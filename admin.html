@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理画面 | カナリア軍団</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="admin">
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="logo">カナリア軍団</a>
+      <nav class="site-nav" aria-label="メインメニュー">
+        <button class="site-nav__toggle" aria-expanded="false" aria-controls="primary-menu">メニュー</button>
+        <ul id="primary-menu" class="site-nav__list">
+          <li><a href="index.html" class="site-nav__link">ホーム</a></li>
+          <li><a href="members.html" class="site-nav__link">メンバー</a></li>
+          <li><a href="admin.html" class="site-nav__link">管理</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero--sub" aria-labelledby="admin-title">
+      <div class="hero__background hero__background--sub"></div>
+      <div class="container hero__content">
+        <h1 id="admin-title">管理画面</h1>
+        <p>メンバー情報やギャラリー写真を更新できます。</p>
+      </div>
+    </section>
+
+    <section class="section section--narrow">
+      <div class="container">
+        <div class="login-panel" data-login-panel>
+          <h2 class="section__title">ログイン</h2>
+          <p class="login-panel__note">※このログイン機能はデモ用であり、実際のセキュリティを保証するものではありません。</p>
+          <form class="admin-form" data-login-form>
+            <div class="form-field">
+              <label for="login-id">ログインID</label>
+              <input id="login-id" name="loginId" type="text" autocomplete="username" required />
+            </div>
+            <div class="form-field">
+              <label for="login-password">パスワード</label>
+              <input id="login-password" name="loginPassword" type="password" autocomplete="current-password" required />
+            </div>
+            <button type="submit" class="button button--primary">ログイン</button>
+            <p class="form-message" data-login-message role="alert" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="admin-panels" data-admin-panels hidden>
+          <section class="admin-section" aria-labelledby="member-admin-title">
+            <div class="admin-section__header">
+              <h2 id="member-admin-title" class="section__title">メンバー管理</h2>
+              <button class="button button--ghost" type="button" data-reset-members>メンバーデータを初期化</button>
+            </div>
+
+            <form class="admin-form" data-member-form>
+              <input type="hidden" name="memberId" />
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="member-name">名前</label>
+                  <input id="member-name" name="memberName" type="text" required />
+                </div>
+                <div class="form-field">
+                  <label for="member-number">背番号</label>
+                  <input id="member-number" name="memberNumber" type="number" min="0" required />
+                </div>
+                <div class="form-field">
+                  <label for="member-position">ポジション</label>
+                  <input id="member-position" name="memberPosition" type="text" required />
+                </div>
+                <div class="form-field">
+                  <label for="member-photo">写真URL</label>
+                  <input id="member-photo" name="memberPhoto" type="url" placeholder="https://example.com/photo.jpg" />
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="member-bio">紹介文</label>
+                <textarea id="member-bio" name="memberBio" rows="3" placeholder="活躍ポイントや意気込みなど"></textarea>
+              </div>
+              <button type="submit" class="button button--primary" data-member-submit>メンバーを追加</button>
+              <button type="button" class="button button--ghost" data-member-cancel hidden>編集をキャンセル</button>
+              <p class="form-message" data-member-message aria-live="polite"></p>
+            </form>
+
+            <div class="table-wrapper">
+              <table class="admin-table" aria-describedby="member-admin-title">
+                <thead>
+                  <tr>
+                    <th scope="col">写真</th>
+                    <th scope="col">名前</th>
+                    <th scope="col">背番号</th>
+                    <th scope="col">ポジション</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-member-table></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-section" aria-labelledby="gallery-admin-title">
+            <div class="admin-section__header">
+              <h2 id="gallery-admin-title" class="section__title">ギャラリー管理</h2>
+              <button class="button button--ghost" type="button" data-reset-gallery>ギャラリーデータを初期化</button>
+            </div>
+
+            <form class="admin-form" data-gallery-form>
+              <input type="hidden" name="galleryId" />
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="gallery-image">画像URL</label>
+                  <input id="gallery-image" name="galleryImage" type="url" placeholder="https://example.com/image.jpg" />
+                </div>
+                <div class="form-field">
+                  <label for="gallery-caption">キャプション</label>
+                  <input id="gallery-caption" name="galleryCaption" type="text" required />
+                </div>
+                <div class="form-field">
+                  <label for="gallery-file">画像ファイルをアップロード</label>
+                  <input
+                    id="gallery-file"
+                    name="galleryFile"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    data-gallery-file
+                  />
+                  <small class="form-field__note">ファイルが選択されている場合はそちらが優先されます。</small>
+                </div>
+              </div>
+              <button type="submit" class="button button--primary" data-gallery-submit>ギャラリー画像を追加</button>
+              <button type="button" class="button button--ghost" data-gallery-cancel hidden>編集をキャンセル</button>
+              <p class="form-message" data-gallery-message aria-live="polite"></p>
+            </form>
+
+            <div class="table-wrapper">
+              <table class="admin-table" aria-describedby="gallery-admin-title">
+                <thead>
+                  <tr>
+                    <th scope="col">サムネイル</th>
+                    <th scope="col">キャプション</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-gallery-table></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="admin-section" aria-labelledby="inquiry-admin-title">
+            <div class="admin-section__header">
+              <h2 id="inquiry-admin-title" class="section__title">お問い合わせ管理</h2>
+            </div>
+            <p class="admin-section__note">※お問い合わせ内容はブラウザのローカルにのみ保存されます。実運用ではサーバー側の実装が必要です。</p>
+            <div class="table-wrapper">
+              <table class="admin-table" aria-describedby="inquiry-admin-title">
+                <thead>
+                  <tr>
+                    <th scope="col">送信日時</th>
+                    <th scope="col">名前</th>
+                    <th scope="col">メールアドレス</th>
+                    <th scope="col">メッセージ</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-inquiry-table></tbody>
+              </table>
+            </div>
+            <p class="admin-empty" data-inquiry-empty>現在お問い合わせはありません。</p>
+            <p class="form-message" data-inquiry-message aria-live="polite"></p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="footer-year"></span> カナリア軍団 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/main.js" defer></script>
+</body>
+</html>
