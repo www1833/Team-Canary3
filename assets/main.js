@@ -1,15 +1,18 @@
 // 共通定数とダミーデータ
 const STORAGE_KEYS = {
   members: 'canary_members',
-  gallery: 'canary_gallery',
-  inquiries: 'canary_inquiries'
+
+  gallery: 'canary_gallery'
+ main
 };
 
 const ADMIN_SESSION_KEY = 'canary_admin_logged_in';
 
 const ADMIN_CREDENTIALS = {
-  id: 'admin',
-  password: 'user'
+
+  id: 'canaryadmin',
+  password: 'yellowgreen123'
+ main
 };
 
 const defaultMembers = [
@@ -70,8 +73,8 @@ const defaultGallery = [
   }
 ];
 
-let adminPanelsInitialized = false;
 
+ main
 // ----- ストレージ操作のヘルパー -----
 function readStorageArray(key) {
   try {
@@ -113,16 +116,8 @@ function getGalleryData({ initializeStorage = false } = {}) {
   return defaultGallery.map((item) => ({ ...item }));
 }
 
-function getInquiriesData({ initializeStorage = false } = {}) {
-  const stored = readStorageArray(STORAGE_KEYS.inquiries);
-  if (Array.isArray(stored)) return stored;
-  if (initializeStorage) {
-    saveStorageArray(STORAGE_KEYS.inquiries, []);
-    return [];
-  }
-  return [];
-}
 
+ main
 function resetMembersData() {
   saveStorageArray(STORAGE_KEYS.members, defaultMembers);
 }
@@ -143,34 +138,8 @@ function getInitials(name) {
   return (first + second).toUpperCase() || name[0];
 }
 
-function formatDateTime(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
 
-function truncateText(text, maxLength = 60) {
-  if (!text) return '';
-  return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
-}
-
-function readFileAsDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : '';
-      resolve(result);
-    };
-    reader.onerror = () => {
-      reject(reader.error ?? new Error('ファイルの読み込みに失敗しました。'));
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
+ main
 // ----- ナビゲーションと共通UI -----
 function setupNavigation(pageId) {
   const nav = document.querySelector('.site-nav');
@@ -248,49 +217,8 @@ function renderGallery() {
   container.appendChild(fragment);
 }
 
-function setupContactForm() {
-  const form = document.querySelector('[data-contact-form]');
-  if (!form) return;
 
-  const messageEl = document.querySelector('[data-contact-message]');
-  let clearTimer = null;
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-
-    const payload = {
-      id: generateId('inq'),
-      name: String(formData.get('name') ?? '').trim(),
-      email: String(formData.get('email') ?? '').trim(),
-      message: String(formData.get('message') ?? '').trim(),
-      submittedAt: formatDateTime(new Date())
-    };
-
-    if (!payload.name || !payload.email || !payload.message) {
-      if (messageEl) {
-        messageEl.textContent = '未入力の項目があります。ご確認ください。';
-      }
-      return;
-    }
-
-    const inquiries = getInquiriesData({ initializeStorage: true });
-    saveStorageArray(STORAGE_KEYS.inquiries, [...inquiries, payload]);
-
-    form.reset();
-
-    if (messageEl) {
-      messageEl.textContent = 'お問い合わせを送信しました。ありがとうございます！';
-      if (clearTimer) {
-        clearTimeout(clearTimer);
-      }
-      clearTimer = setTimeout(() => {
-        messageEl.textContent = '';
-      }, 4000);
-    }
-  });
-}
-
+ main
 function setupGalleryModal() {
   const modal = document.getElementById('gallery-modal');
   if (!modal) return;
@@ -423,56 +351,42 @@ function setupAdminLogin() {
 
   if (!loginPanel || !loginForm || !adminPanels) return;
 
-  const showAdminPanels = () => {
-    loginPanel.hidden = true;
-    adminPanels.hidden = false;
-    initializeAdminPanels();
-  };
-
-  const hideAdminPanels = () => {
-    adminPanels.hidden = true;
-    loginPanel.hidden = false;
-  };
 
   const isLoggedIn = sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
   if (isLoggedIn) {
-    showAdminPanels();
+    loginPanel.hidden = true;
+    adminPanels.hidden = false;
+    initializeAdminPanels();
     return;
   }
 
-  hideAdminPanels();
-
+ main
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(loginForm);
     const loginId = String(formData.get('loginId') ?? '').trim();
     const loginPassword = String(formData.get('loginPassword') ?? '').trim();
 
-    if (loginMessage) {
-      loginMessage.textContent = '';
-    }
 
     if (loginId === ADMIN_CREDENTIALS.id && loginPassword === ADMIN_CREDENTIALS.password) {
       sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-      if (loginMessage) {
-        loginMessage.textContent = 'ログインしました。';
-      }
-      showAdminPanels();
+      loginMessage.textContent = 'ログインしました。';
+      loginPanel.hidden = true;
+      adminPanels.hidden = false;
+      initializeAdminPanels();
     } else {
-      if (loginMessage) {
-        loginMessage.textContent = 'ID またはパスワードが正しくありません。';
-      }
+      loginMessage.textContent = 'ID またはパスワードが正しくありません。';
+ main
     }
   });
 }
 
 // ----- 管理画面：メンバー & ギャラリー管理 -----
 function initializeAdminPanels() {
-  if (adminPanelsInitialized) return;
-  adminPanelsInitialized = true;
+
   setupMemberAdmin();
   setupGalleryAdmin();
-  setupInquiryAdmin();
+ main
 }
 
 function setupMemberAdmin() {
@@ -632,7 +546,8 @@ function setupGalleryAdmin() {
   const submitButton = document.querySelector('[data-gallery-submit]');
   const cancelButton = document.querySelector('[data-gallery-cancel]');
   const resetButton = document.querySelector('[data-reset-gallery]');
-  const fileInput = form.querySelector('[data-gallery-file]');
+
+ main
 
   if (!form || !tableBody || !submitButton) return;
 
@@ -678,9 +593,8 @@ function setupGalleryAdmin() {
         form.galleryId.value = item.id;
         form.galleryImage.value = item.imageUrl;
         form.galleryCaption.value = item.caption ?? '';
-        if (fileInput) {
-          fileInput.value = '';
-        }
+
+ main
         submitButton.textContent = 'ギャラリーを更新';
         cancelButton.hidden = false;
         message.textContent = '';
@@ -706,44 +620,24 @@ function setupGalleryAdmin() {
     });
   }
 
-  form.addEventListener('submit', async (event) => {
+
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
 
-    message.textContent = '';
-
     const galleryData = getGalleryData({ initializeStorage: true });
-    const caption = String(formData.get('galleryCaption') ?? '').trim();
-    let imageUrl = '';
+    const payload = {
+      id: editingId ?? generateId('g'),
+      imageUrl: String(formData.get('galleryImage') ?? '').trim(),
+      caption: String(formData.get('galleryCaption') ?? '').trim()
+    };
 
-    const file = fileInput?.files?.[0] ?? null;
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        message.textContent = '画像ファイルを選択してください。';
-        return;
-      }
-      try {
-        imageUrl = await readFileAsDataUrl(file);
-      } catch (error) {
-        console.warn(error);
-        message.textContent = 'ファイルの読み込みに失敗しました。';
-        return;
-      }
-    } else {
-      imageUrl = String(formData.get('galleryImage') ?? '').trim();
-    }
-
-    if (!imageUrl || !caption) {
-      message.textContent = '画像URLまたはファイルとキャプションを入力してください。';
+    if (!payload.imageUrl || !payload.caption) {
+      message.textContent = '画像URLとキャプションを入力してください。';
       return;
     }
 
-    const payload = {
-      id: editingId ?? generateId('g'),
-      imageUrl,
-      caption
-    };
-
+ main
     let nextGallery;
     if (editingId) {
       nextGallery = galleryData.map((item) => (item.id === editingId ? payload : item));
@@ -759,9 +653,8 @@ function setupGalleryAdmin() {
 
     editingId = null;
     form.reset();
-    if (fileInput) {
-      fileInput.value = '';
-    }
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
   });
@@ -769,9 +662,8 @@ function setupGalleryAdmin() {
   cancelButton?.addEventListener('click', () => {
     editingId = null;
     form.reset();
-    if (fileInput) {
-      fileInput.value = '';
-    }
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
     message.textContent = '';
@@ -781,9 +673,8 @@ function setupGalleryAdmin() {
     resetGalleryData();
     editingId = null;
     form.reset();
-    if (fileInput) {
-      fileInput.value = '';
-    }
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
     message.textContent = 'デフォルトのギャラリーデータに戻しました。';
@@ -794,81 +685,8 @@ function setupGalleryAdmin() {
   refreshTable();
 }
 
-function setupInquiryAdmin() {
-  const tableBody = document.querySelector('[data-inquiry-table]');
-  const emptyState = document.querySelector('[data-inquiry-empty]');
-  const messageEl = document.querySelector('[data-inquiry-message]');
 
-  if (!tableBody || !emptyState) return;
-
-  function refreshTable() {
-    const inquiries = getInquiriesData({ initializeStorage: true });
-    tableBody.innerHTML = '';
-
-    if (!inquiries.length) {
-      emptyState.hidden = false;
-      if (messageEl) {
-        messageEl.textContent = '';
-      }
-      return;
-    }
-
-    emptyState.hidden = true;
-    const ordered = [...inquiries].reverse();
-
-    ordered.forEach((inquiry) => {
-      const row = document.createElement('tr');
-
-      const dateCell = document.createElement('td');
-      dateCell.textContent = inquiry.submittedAt ?? '';
-
-      const nameCell = document.createElement('td');
-      nameCell.textContent = inquiry.name ?? '';
-
-      const emailCell = document.createElement('td');
-      if (inquiry.email) {
-        const emailLink = document.createElement('a');
-        emailLink.href = `mailto:${inquiry.email}`;
-        emailLink.textContent = inquiry.email;
-        emailLink.rel = 'noopener';
-        emailCell.appendChild(emailLink);
-      }
-
-      const messageCell = document.createElement('td');
-      const displayText = truncateText(inquiry.message, 70);
-      messageCell.textContent = displayText;
-      if (inquiry.message) {
-        messageCell.title = inquiry.message;
-      }
-
-      const actionsCell = document.createElement('td');
-      const actionsWrapper = document.createElement('div');
-      actionsWrapper.className = 'table-actions';
-
-      const deleteButton = document.createElement('button');
-      deleteButton.type = 'button';
-      deleteButton.className = 'button button--ghost';
-      deleteButton.textContent = '削除';
-      deleteButton.addEventListener('click', () => {
-        const inquiriesData = getInquiriesData({ initializeStorage: true }).filter((item) => item.id !== inquiry.id);
-        saveStorageArray(STORAGE_KEYS.inquiries, inquiriesData);
-        refreshTable();
-        if (messageEl) {
-          messageEl.textContent = 'お問い合わせを削除しました。';
-        }
-      });
-
-      actionsWrapper.appendChild(deleteButton);
-      actionsCell.appendChild(actionsWrapper);
-
-      row.append(dateCell, nameCell, emailCell, messageCell, actionsCell);
-      tableBody.appendChild(row);
-    });
-  }
-
-  refreshTable();
-}
-
+ main
 // ----- 初期化 -----
 document.addEventListener('DOMContentLoaded', () => {
   const pageId = document.body.dataset.page;
@@ -879,7 +697,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pageId === 'home') {
     renderGallery();
     setupGalleryModal();
-    setupContactForm();
+
+ main
   }
 
   if (pageId === 'members') {

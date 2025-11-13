@@ -131,40 +131,39 @@ a:hover,
 .hero__background {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.35), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(255, 221, 51, 0.45), transparent 65%),
-    linear-gradient(120deg, rgba(255, 221, 51, 0.95), rgba(15, 138, 44, 0.95));
-  background-size: 220% 220%, 200% 200%, 100% 100%;
-  animation: heroGradientShift 22s ease-in-out infinite alternate;
+
+  background: linear-gradient(130deg, rgba(255, 221, 51, 0.95), rgba(15, 138, 44, 0.95));
+  animation: heroGradient 12s ease-in-out infinite alternate;
+ main
 }
 
 .hero__background::before,
 .hero__background::after {
   content: "";
   position: absolute;
-  pointer-events: none;
+
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  opacity: 0.6;
+  animation: heroFloat 20s linear infinite;
+  filter: blur(0.5px);
 }
 
 .hero__background::before {
-  inset: -20% -40% -35% -40%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 221, 51, 0.16) 40%, rgba(15, 138, 44, 0.18));
-  transform: rotate(6deg);
-  animation: heroBandDrift 28s ease-in-out infinite;
+  width: 420px;
+  height: 420px;
+  top: -10%;
+  left: -10%;
+  animation-delay: -4s;
 }
 
 .hero__background::after {
-  width: 340px;
-  height: 340px;
-  bottom: -18%;
-  left: -12%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 70%);
-  box-shadow:
-    480px -120px 0 60px rgba(15, 138, 44, 0.16),
-    640px 120px 0 50px rgba(255, 221, 51, 0.22);
-  animation: heroOrbs 24s ease-in-out infinite;
+  width: 280px;
+  height: 280px;
+  bottom: -15%;
+  right: -12%;
+  animation-delay: -10s;
+ main
 }
 
 .hero__content {
@@ -190,12 +189,8 @@ a:hover,
 
 .hero__background--sub {
   background: linear-gradient(135deg, rgba(255, 221, 51, 0.85), rgba(15, 138, 44, 0.85));
-  animation: none;
-}
 
-.hero__background--sub::before,
-.hero__background--sub::after {
-  display: none;
+ main
 }
 
 .section {
@@ -342,12 +337,8 @@ a:hover,
   font-weight: 600;
 }
 
-.form-field__note {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--color-muted);
-}
 
+ main
 .form-field input,
 .form-field textarea,
 .admin-form input,
@@ -360,11 +351,8 @@ a:hover,
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-field input[type='file'] {
-  padding: 0.45rem 0.4rem;
-  background-color: rgba(255, 255, 255, 0.9);
-}
 
+ main
 .form-field input:focus,
 .form-field textarea:focus,
 .admin-form input:focus,
@@ -485,12 +473,8 @@ a:hover,
   padding: 2.2rem;
 }
 
-.admin-section__note {
-  font-size: 0.85rem;
-  color: var(--color-muted);
-  margin-bottom: 1rem;
-}
 
+ main
 .admin-section__header {
   display: flex;
   flex-wrap: wrap;
@@ -548,12 +532,8 @@ a:hover,
   gap: 0.4rem;
 }
 
-.admin-empty {
-  margin-top: 1rem;
-  color: var(--color-muted);
-  font-size: 0.95rem;
-}
 
+ main
 .table-actions button {
   font-size: 0.85rem;
   padding: 0.45rem 0.9rem;
@@ -642,46 +622,35 @@ a:hover,
   background: rgba(0, 0, 0, 0.65);
 }
 
-@keyframes heroGradientShift {
+
+@keyframes heroGradient {
   0% {
-    background-position: 0% 50%, 60% 30%, 0% 50%;
+    background-position: 0% 50%;
+    background-size: 120% 120%;
   }
   50% {
-    background-position: 60% 80%, 30% 70%, 100% 50%;
+    background-position: 50% 100%;
+    background-size: 140% 140%;
   }
   100% {
-    background-position: 100% 40%, 80% 60%, 0% 50%;
+    background-position: 100% 30%;
+    background-size: 120% 120%;
   }
 }
 
-@keyframes heroBandDrift {
-  0% {
-    transform: rotate(4deg) translate3d(-4%, 0, 0) scale(1);
-  }
-  50% {
-    transform: rotate(8deg) translate3d(4%, -2%, 0) scale(1.03);
-  }
-  100% {
-    transform: rotate(6deg) translate3d(-3%, 1%, 0) scale(1.01);
-  }
-}
-
-@keyframes heroOrbs {
+@keyframes heroFloat {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.65;
+    opacity: 0.55;
   }
-  40% {
-    transform: translate3d(8%, -6%, 0) scale(1.05);
-    opacity: 0.85;
-  }
-  70% {
-    transform: translate3d(12%, 4%, 0) scale(0.98);
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.05);
     opacity: 0.75;
   }
   100% {
-    transform: translate3d(0, 0, 0) scale(1.02);
-    opacity: 0.7;
+    transform: translate3d(-6%, -8%, 0) scale(1);
+    opacity: 0.55;
+ main
   }
 }
 

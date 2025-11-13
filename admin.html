@@ -112,23 +112,16 @@
               <div class="form-grid">
                 <div class="form-field">
                   <label for="gallery-image">画像URL</label>
-                  <input id="gallery-image" name="galleryImage" type="url" placeholder="https://example.com/image.jpg" />
+
+                  <input id="gallery-image" name="galleryImage" type="url" placeholder="https://example.com/image.jpg" required />
+ main
                 </div>
                 <div class="form-field">
                   <label for="gallery-caption">キャプション</label>
                   <input id="gallery-caption" name="galleryCaption" type="text" required />
                 </div>
-                <div class="form-field">
-                  <label for="gallery-file">画像ファイルをアップロード</label>
-                  <input
-                    id="gallery-file"
-                    name="galleryFile"
-                    type="file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    data-gallery-file
-                  />
-                  <small class="form-field__note">ファイルが選択されている場合はそちらが優先されます。</small>
-                </div>
+
+ main
               </div>
               <button type="submit" class="button button--primary" data-gallery-submit>ギャラリー画像を追加</button>
               <button type="button" class="button button--ghost" data-gallery-cancel hidden>編集をキャンセル</button>
@@ -149,28 +142,7 @@
             </div>
           </section>
 
-          <section class="admin-section" aria-labelledby="inquiry-admin-title">
-            <div class="admin-section__header">
-              <h2 id="inquiry-admin-title" class="section__title">お問い合わせ管理</h2>
-            </div>
-            <p class="admin-section__note">※お問い合わせ内容はブラウザのローカルにのみ保存されます。実運用ではサーバー側の実装が必要です。</p>
-            <div class="table-wrapper">
-              <table class="admin-table" aria-describedby="inquiry-admin-title">
-                <thead>
-                  <tr>
-                    <th scope="col">送信日時</th>
-                    <th scope="col">名前</th>
-                    <th scope="col">メールアドレス</th>
-                    <th scope="col">メッセージ</th>
-                    <th scope="col">操作</th>
-                  </tr>
-                </thead>
-                <tbody data-inquiry-table></tbody>
-              </table>
-            </div>
-            <p class="admin-empty" data-inquiry-empty>現在お問い合わせはありません。</p>
-            <p class="form-message" data-inquiry-message aria-live="polite"></p>
-          </section>
+ main
         </div>
       </div>
     </section>
