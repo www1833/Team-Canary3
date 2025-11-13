@@ -1,14 +1,18 @@
 // 共通定数とダミーデータ
 const STORAGE_KEYS = {
   members: 'canary_members',
+
   gallery: 'canary_gallery'
+ main
 };
 
 const ADMIN_SESSION_KEY = 'canary_admin_logged_in';
 
 const ADMIN_CREDENTIALS = {
+
   id: 'canaryadmin',
   password: 'yellowgreen123'
+ main
 };
 
 const defaultMembers = [
@@ -69,6 +73,8 @@ const defaultGallery = [
   }
 ];
 
+
+ main
 // ----- ストレージ操作のヘルパー -----
 function readStorageArray(key) {
   try {
@@ -110,6 +116,8 @@ function getGalleryData({ initializeStorage = false } = {}) {
   return defaultGallery.map((item) => ({ ...item }));
 }
 
+
+ main
 function resetMembersData() {
   saveStorageArray(STORAGE_KEYS.members, defaultMembers);
 }
@@ -130,6 +138,8 @@ function getInitials(name) {
   return (first + second).toUpperCase() || name[0];
 }
 
+
+ main
 // ----- ナビゲーションと共通UI -----
 function setupNavigation(pageId) {
   const nav = document.querySelector('.site-nav');
@@ -207,6 +217,8 @@ function renderGallery() {
   container.appendChild(fragment);
 }
 
+
+ main
 function setupGalleryModal() {
   const modal = document.getElementById('gallery-modal');
   if (!modal) return;
@@ -339,6 +351,7 @@ function setupAdminLogin() {
 
   if (!loginPanel || !loginForm || !adminPanels) return;
 
+
   const isLoggedIn = sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
   if (isLoggedIn) {
     loginPanel.hidden = true;
@@ -347,11 +360,13 @@ function setupAdminLogin() {
     return;
   }
 
+ main
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(loginForm);
     const loginId = String(formData.get('loginId') ?? '').trim();
     const loginPassword = String(formData.get('loginPassword') ?? '').trim();
+
 
     if (loginId === ADMIN_CREDENTIALS.id && loginPassword === ADMIN_CREDENTIALS.password) {
       sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
@@ -361,14 +376,17 @@ function setupAdminLogin() {
       initializeAdminPanels();
     } else {
       loginMessage.textContent = 'ID またはパスワードが正しくありません。';
+ main
     }
   });
 }
 
 // ----- 管理画面：メンバー & ギャラリー管理 -----
 function initializeAdminPanels() {
+
   setupMemberAdmin();
   setupGalleryAdmin();
+ main
 }
 
 function setupMemberAdmin() {
@@ -529,6 +547,8 @@ function setupGalleryAdmin() {
   const cancelButton = document.querySelector('[data-gallery-cancel]');
   const resetButton = document.querySelector('[data-reset-gallery]');
 
+ main
+
   if (!form || !tableBody || !submitButton) return;
 
   let editingId = null;
@@ -573,6 +593,8 @@ function setupGalleryAdmin() {
         form.galleryId.value = item.id;
         form.galleryImage.value = item.imageUrl;
         form.galleryCaption.value = item.caption ?? '';
+
+ main
         submitButton.textContent = 'ギャラリーを更新';
         cancelButton.hidden = false;
         message.textContent = '';
@@ -598,6 +620,7 @@ function setupGalleryAdmin() {
     });
   }
 
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
@@ -614,6 +637,7 @@ function setupGalleryAdmin() {
       return;
     }
 
+ main
     let nextGallery;
     if (editingId) {
       nextGallery = galleryData.map((item) => (item.id === editingId ? payload : item));
@@ -629,6 +653,8 @@ function setupGalleryAdmin() {
 
     editingId = null;
     form.reset();
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
   });
@@ -636,6 +662,8 @@ function setupGalleryAdmin() {
   cancelButton?.addEventListener('click', () => {
     editingId = null;
     form.reset();
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
     message.textContent = '';
@@ -645,6 +673,8 @@ function setupGalleryAdmin() {
     resetGalleryData();
     editingId = null;
     form.reset();
+
+ main
     submitButton.textContent = 'ギャラリー画像を追加';
     cancelButton.hidden = true;
     message.textContent = 'デフォルトのギャラリーデータに戻しました。';
@@ -655,6 +685,8 @@ function setupGalleryAdmin() {
   refreshTable();
 }
 
+
+ main
 // ----- 初期化 -----
 document.addEventListener('DOMContentLoaded', () => {
   const pageId = document.body.dataset.page;
@@ -665,6 +697,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pageId === 'home') {
     renderGallery();
     setupGalleryModal();
+
+ main
   }
 
   if (pageId === 'members') {
