@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>カナリア軍団 公式サイト</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="logo">カナリア軍団</a>
+      <nav class="site-nav" aria-label="メインメニュー">
+        <button class="site-nav__toggle" aria-expanded="false" aria-controls="primary-menu">メニュー</button>
+        <ul id="primary-menu" class="site-nav__list">
+          <li><a href="index.html" class="site-nav__link">ホーム</a></li>
+          <li><a href="members.html" class="site-nav__link">メンバー</a></li>
+          <li><a href="admin.html" class="site-nav__link">管理</a></li>
+          <li><a href="#contact" class="site-nav__link">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__background"></div>
+      <div class="container hero__content">
+        <h1 id="hero-title">ようこそ、草野球チーム「カナリア軍団」へ</h1>
+        <p>地域に笑顔と情熱を届ける草野球チーム。黄色と緑のユニフォームで、楽しさと勝利を追い求めています。</p>
+        <a class="button button--primary" href="#contact">お問い合わせはこちら</a>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="section__title">チーム紹介</h2>
+        <p class="section__lead">カナリア軍団は、野球を愛するメンバーが集まり結成された草野球チームです。週末には練習や練習試合を行い、地域のイベントにも積極的に参加しています。</p>
+        <div class="features">
+          <article class="feature-card">
+            <h3 class="feature-card__title">チームスピリット</h3>
+            <p class="feature-card__text">仲間へのリスペクトと声出しを大切にし、チーム全体で盛り上がる野球を目指しています。</p>
+          </article>
+          <article class="feature-card">
+            <h3 class="feature-card__title">地域密着</h3>
+            <p class="feature-card__text">地元イベントや少年野球教室のサポートなど、地域とのつながりを大切に活動しています。</p>
+          </article>
+          <article class="feature-card">
+            <h3 class="feature-card__title">楽しさと成長</h3>
+            <p class="feature-card__text">勝つだけでなく、メンバーそれぞれが成長し続けられるような環境づくりを心がけています。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--accent" id="schedule">
+      <div class="container">
+        <h2 class="section__title">今月の活動予定</h2>
+        <ul class="schedule-list">
+          <li>
+            <span class="schedule-list__date">毎週土曜日</span>
+            <span class="schedule-list__info">練習（市民球場 第一グラウンド）</span>
+          </li>
+          <li>
+            <span class="schedule-list__date">第2日曜日</span>
+            <span class="schedule-list__info">練習試合 vs. レッドウィングス</span>
+          </li>
+          <li>
+            <span class="schedule-list__date">第4日曜日</span>
+            <span class="schedule-list__info">チームミーティング（オンライン）</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="container">
+        <h2 class="section__title">フォトギャラリー</h2>
+        <p class="section__lead">試合やイベントの様子を写真でお届けします。</p>
+        <div class="gallery-grid" data-gallery-container></div>
+      </div>
+    </section>
+
+    <section class="section section--contact" id="contact">
+      <div class="container">
+        <h2 class="section__title">お問い合わせ</h2>
+        <p class="section__lead">チームへの参加希望や練習・試合のお問い合わせは、以下のフォームからご連絡ください。</p>
+        <form class="contact-form" data-contact-form>
+          <div class="form-field">
+            <label for="contact-name">お名前</label>
+            <input id="contact-name" type="text" name="name" placeholder="例：山田 太郎" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-email">メールアドレス</label>
+            <input id="contact-email" type="email" name="email" placeholder="例：example@example.com" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-message">メッセージ</label>
+            <textarea id="contact-message" name="message" rows="4" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+          </div>
+          <button type="submit" class="button button--secondary">送信する</button>
+          <p class="form-message" data-contact-message aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="footer-year"></span> カナリア軍団 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div class="modal" id="gallery-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__content" role="document">
+      <button class="modal__close" type="button" aria-label="閉じる" data-modal-close>&times;</button>
+      <img class="modal__image" src="" alt="" />
+      <p class="modal__caption"></p>
+    </div>
+  </div>
+
+  <script src="assets/main.js" defer></script>
+</body>
+</html>

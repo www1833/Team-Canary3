@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>メンバー紹介 | カナリア軍団</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="members">
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="logo">カナリア軍団</a>
+      <nav class="site-nav" aria-label="メインメニュー">
+        <button class="site-nav__toggle" aria-expanded="false" aria-controls="primary-menu">メニュー</button>
+        <ul id="primary-menu" class="site-nav__list">
+          <li><a href="index.html" class="site-nav__link">ホーム</a></li>
+          <li><a href="members.html" class="site-nav__link">メンバー</a></li>
+          <li><a href="admin.html" class="site-nav__link">管理</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero--sub" aria-labelledby="members-title">
+      <div class="hero__background hero__background--sub"></div>
+      <div class="container hero__content">
+        <h1 id="members-title">メンバー紹介</h1>
+        <p>カナリア軍団の仲間たちをご紹介します。個性豊かな面々が、チームを盛り上げています。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section__title">選手一覧</h2>
+        <div class="member-grid" data-member-list></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="footer-year"></span> カナリア軍団 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/main.js" defer></script>
+</body>
+</html>
